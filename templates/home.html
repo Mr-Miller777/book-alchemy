@@ -7,6 +7,10 @@
   </head>
   <body>
 
+    {% if request.args.get('deleted') %}
+      <p style="color: green;">Book deleted successfully.</p>
+    {% endif %}
+
     <form action="/" method="GET">
       <input type="text" name="search" placeholder="Search by title..." value="{{ search }}">
       <button type="submit">Search</button>
@@ -24,6 +28,9 @@
       <img src="https://covers.openlibrary.org/b/isbn/{{ book.isbn }}-M.jpg" alt="Book cover" width="100">
       <h3>{{ book.title }}</h3>
       <p>Author: {{ book.author.name }}</p>
+      <form action="/book/{{ book.id }}/delete" method="POST" style="display:inline;">
+        <button type="submit" onclick="return confirm('Are you sure?');">Delete Book</button>
+      </form>
     </div>
     <hr>
     {% endfor %}
