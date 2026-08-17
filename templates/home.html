@@ -7,7 +7,17 @@
   </head>
   <body>
 
-    <p>Sort by: <a href="/?sort=title">Title</a> | <a href="/?sort=author">Author</a></p>
+    <form action="/" method="GET">
+      <input type="text" name="search" placeholder="Search by title..." value="{{ search }}">
+      <button type="submit">Search</button>
+    </form>
+
+    <p>Sort by: <a href="/?sort=title{% if search %}&search={{ search }}{% endif %}">Title</a> |
+       <a href="/?sort=author{% if search %}&search={{ search }}{% endif %}">Author</a></p>
+
+    {% if search and not books %}
+      <p>No books match your search criteria.</p>
+    {% endif %}
 
     {% for book in books %}
     <div>

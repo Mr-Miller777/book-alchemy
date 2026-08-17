@@ -16,13 +16,20 @@ with app.app_context():
 @app.route('/')
 def home():
     sort = request.args.get('sort')
+    search = request.args.get('search', '')
+
+    query = Book.query
+
+    if search:
+        query = query.filter(Book.title.like(f'%{search}%'))
+
     if sort == 'title':
-        books = Book.query.order_by(Book.title).all()
+        query = query.order_by(Book.title)
     elif sort == 'author':
-        books = Book.query.join(Author).order_by(Author.name).all()
-    else:
-        books = Book.query.all()
-    return render_template('home.html', books=books)
+        query = query.join(Author).order_by(Author.name)
+
+    books = query.all()
+    return render_template('home.html', books=books, search=search)
 
 
 @app.route('/add_author', methods=['GET', 'POST'])
