@@ -7,9 +7,15 @@
   </head>
   <body>
 
+    <p>Sort by: <a href="/?sort=title">Title</a> | <a href="/?sort=author">Author</a></p>
+
     {% for book in books %}
-    <div> <h3>{{ book.title }}</h3>
+    <div>
+      <img src="https://covers.openlibrary.org/b/isbn/{{ book.isbn }}-M.jpg" alt="Book cover" width="100">
+      <h3>{{ book.title }}</h3>
+      <p>Author: {{ book.author.name }}</p>
     </div>
+    <hr>
     {% endfor %}
 
   </body>
